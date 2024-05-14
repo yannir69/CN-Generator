@@ -1,5 +1,5 @@
-from flask import Flask, request, jsonify
 import openai
+from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
@@ -10,7 +10,7 @@ openai.api_key = OPENAI_API_KEY
 # Route to handle incoming text input and generate response
 @app.route('/generate', methods=['POST'])
 def generate_response():
-    input_text = request.json.get('text')
+    input_text = "erzähl mir ein witz" #request.json.get('text')
     if not input_text:
         return jsonify({'error': 'Input text is missing'}), 400
 
@@ -21,6 +21,7 @@ def generate_response():
             max_tokens=50
         )
         generated_text = response.choices[0].text.strip()
+        print(generate_response)
         return jsonify({'generated_text': generated_text}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
