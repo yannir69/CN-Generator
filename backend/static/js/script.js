@@ -6,7 +6,12 @@ document.addEventListener('DOMContentLoaded', function() {
     generateButton.addEventListener('click', function() {
         const inputText = textInput.value.trim();
         if (inputText !== '') {
-            fetch('/test', {method: 'POST', body: JSON.stringify('this is a test')})
+            fetch('/generateCN', 
+            {method: 'POST', 
+            headers: {
+                'Content-Type': 'application/json'
+            }, 
+            body: JSON.stringify(inputText)})
             .then(response => response.text())
             .then(text => {
                 outputDiv.innerText = text;
