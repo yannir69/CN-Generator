@@ -1,82 +1,98 @@
-"""import openai
-
-# Set your OpenAI API key
-OPENAI_API_KEY = 'sk-proj-xksa4YXhxn1XqzX0OOTKT3BlbkFJN4kdtt5lIkziFbOuE1oS'
-openai.api_key = OPENAI_API_KEY
-
-# Route to handle incoming text input and generate response
-def generate_response(input):
-    response = openai.chat.completions.create(
-            model = "text-davinci-002",
-            messages=[{"role": "user", "content": input}],
-        )
-    generated_text = response.choices[0].message.content.strip()
-    return generated_text
-
-if __name__ == '__main__':
-    while True:
-        user_input = input("You: ")
-        if user_input.lower() in ["quit"]:
-            break
-
-        response = generate_response(user_input)
-        print("Chatbot: ", response)"""
-
-from langchain_community.llms import Ollama
+#from langchain_community.llms import Ollama
 from crewai import Agent, Task, Crew, Process
 from flask import Flask, render_template, request, send_from_directory, jsonify
+import os
+
+os.environ["OPENAI_API_BASE"] = 'https://api.groq.com/openai/v1'
+os.environ["OPENAI_MODEL_NAME"] = 'mixtral-8x7b-32768'
+os.environ["OPENAI_API_KEY"] = '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'
 
 app = Flask(__name__)
-
-@app.route('/test', methods=['POST'])
-def test():
-    message = request.json['']
-    return jsonify(message)
-    #return request.args.get('inputText')
 
 
 @app.route('/')
 def index():
     return send_from_directory('static', 'index.html')
 
-model = Ollama(model = "llama3")
-
-
-
-
 @app.route('/generateCN', methods=['POST'])
 def generate():
     message = request.json
-    classifier = Agent(
-        role = 'Hate Speech Detector',
-        goal = 'Detect Hate speech',
-        backstory = """You are a social media page moderator. You're responsible for answering to hate speech comments and mitigate the hate under your posts.""",
+
+    agent_profi = Agent(
+        role = 'Moderator eines Accounts auf einer Social Media Plattform',
+        goal = 'Generator von Antworten auf gegebene Hasskommentare, um weitere Hassrede in der Kommentarspalte zu verringern.',
+        backstory = 'Dein Kommentarstil ist professionell, sachlich, und auf Fakten basiert',
         verbose = True,
         allow_delegation = False,
-        llm = model
+        language = 'de',
     )
-    responder = Agent(
-        role = 'Counter-Narrative Generator',
-        goal = 'Returning a good Counter-Narrative to Hate Speech that can be used to moderate an instagram page comment section',
-        backstory = """You are a social media page moderator. You're responsible for answering to hate speech comments and mitigate the hate under your posts.""",
+
+    agent_humor = Agent(
+        role = 'Moderator eines Accounts auf einer Social Media Plattform',
+        goal = 'Generator von Antworten auf gegebene Hasskommentare, um weitere Hassrede in der Kommentarspalte zu verringern',
+        backstory = 'Dein Kommentarstil ist humorvoll, kreativ und schlagfertig. Benutze Emojis um den Humor hervorzuheben',
         verbose = True,
         allow_delegation = False,
-        llm = model
+        language = 'de'
     )
-    classify_comment = Task(
-        description = f"Classify the following message in hate speech or non-hate-speech: '{message}'",
-        agent = classifier,
-        expected_output = "A binary classification of hate speech or not"
+
+    agent_affection = Agent(
+        role = 'Moderator eines Accounts auf einer Social Media Plattform',
+        goal = 'Generator von Antworten auf gegebene Hasskommentare, um weitere Hassrede in der Kommentarspalte zu verringern',
+        backstory = 'Dein Kommentarstil ist einfühlsam und sensibel. Versuche die Ansichtsweise des Hassredners anzuerkennen, aber freundlich zu widerlegen',
+        verbose = True,
+        allow_delegation = False,
+        language = 'de'
     )
-    generate_CN = Task(
-        description = f"Generate a Counter-Narrative for the following hate speech message: '{message}'",
-        agent = classifier,
-        expected_output = "Counter-Narrative for hatespeech that is mitigating further hate speech comments"
+
+    agent_problem = Agent(
+        role = 'Hassrede-Analytiker',
+        goal = 'Analysiere Hasskommentare und schreibe einen Paragraph, warum diese Hassrede problematisch ist',
+        backstory = 'Du bist ein Experte in Hassrede und kannst Problematiken von Hassrede-Kommentaren erkennen und beschreiben.',
+        verbose = True,
+        allow_delegation = False,
+        language = 'de'
+    )
+
+    task_profi = Task(
+        description = f"Generiere Gegenrede auf die gegebene Hassrede für die folgende Nachricht: '{message}'",
+        agent = agent_profi,
+        expected_output = "Ein bis drei Sätze Gegenrede, die die weitere Hassrede in der Kommentarspalte vermindern wird",
+        language = 'de',
+        async_execution = True,
+        context = [agent_problem]
+    )
+
+    task_humor = Task(
+        description = f"Generiere Gegenrede auf die gegebene Hassrede für die folgende Nachricht: '{message}'",
+        agent = agent_humor,
+        expected_output = "Ein bis drei Sätze Gegenrede, die die weitere Hassrede in der Kommentarspalte vermindern wird",
+        language = 'de',
+        async_execution = True,
+        context = [agent_problem]
+    )
+
+    task_affection = Task(
+        description = f"Generiere Gegenrede auf die gegebene Hassrede für die folgende Nachricht: '{message}'",
+        agent = agent_affection,
+        expected_output = "Ein bis drei Sätze Gegenrede, die die weitere Hassrede in der Kommentarspalte vermindern wird",
+        language = 'de',
+        async_execution = True,
+        context = [agent_problem]
+    )
+
+    task_problem = Task(
+        description = f"Finde die Problematik der folgenden Hassrede. Schreibe eine ausführliche Erklärung, warum dies als Hassrede gilt '{message}'",
+        agent = agent_problem,
+        expected_output = "Ein Paragraph mit einer Erklärung, warum der Kommentar problematisch hinsichtlich Hassrede ist.",
+        language = 'de',
+        async_execution = True
     )
     crew = Crew(
-        agents = [classifier, responder],
-        tasks = [classify_comment, generate_CN],
+        agents = [agent_profi, agent_affection, agent_humor, agent_problem],
+        tasks = [task_profi, task_affection, task_humor, task_problem],
         verbose = 2,
+        temperature = 0.6,
         process = Process.sequential
     )
     output = crew.kickoff()
@@ -84,5 +100,7 @@ def generate():
 
 if __name__ == '__main__':
     app.run(debug=True, port=5500)
+
+
 
 
