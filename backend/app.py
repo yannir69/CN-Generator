@@ -54,13 +54,21 @@ def generate():
         language = 'de'
     )
 
+    task_problem = Task(
+        description = f"Finde die Problematik der folgenden Hassrede. Schreibe eine ausführliche Erklärung, warum dies als Hassrede gilt '{message}'",
+        agent = agent_problem,
+        expected_output = "Ein Paragraph mit einer Erklärung, warum der Kommentar problematisch hinsichtlich Hassrede ist.",
+        language = 'de',
+        async_execution = True
+    )
+
     task_profi = Task(
         description = f"Generiere Gegenrede auf die gegebene Hassrede für die folgende Nachricht: '{message}'",
         agent = agent_profi,
         expected_output = "Ein bis drei Sätze Gegenrede, die die weitere Hassrede in der Kommentarspalte vermindern wird",
         language = 'de',
         async_execution = True,
-        context = [agent_problem]
+        context = [task_problem]
     )
 
     task_humor = Task(
@@ -69,7 +77,7 @@ def generate():
         expected_output = "Ein bis drei Sätze Gegenrede, die die weitere Hassrede in der Kommentarspalte vermindern wird",
         language = 'de',
         async_execution = True,
-        context = [agent_problem]
+        context = [task_problem]
     )
 
     task_affection = Task(
@@ -78,16 +86,10 @@ def generate():
         expected_output = "Ein bis drei Sätze Gegenrede, die die weitere Hassrede in der Kommentarspalte vermindern wird",
         language = 'de',
         async_execution = True,
-        context = [agent_problem]
+        context = [task_problem]
     )
 
-    task_problem = Task(
-        description = f"Finde die Problematik der folgenden Hassrede. Schreibe eine ausführliche Erklärung, warum dies als Hassrede gilt '{message}'",
-        agent = agent_problem,
-        expected_output = "Ein Paragraph mit einer Erklärung, warum der Kommentar problematisch hinsichtlich Hassrede ist.",
-        language = 'de',
-        async_execution = True
-    )
+   
     crew = Crew(
         agents = [agent_profi, agent_affection, agent_humor, agent_problem],
         tasks = [task_profi, task_affection, task_humor, task_problem],
