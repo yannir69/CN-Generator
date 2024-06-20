@@ -12,9 +12,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 'Content-Type': 'application/json'
             }, 
             body: JSON.stringify(inputText)})
-            .then(response => response.text())
-            .then(text => {
-                outputDiv.innerText = text;
+            .then(response => response.json())
+            .then(data => {
+                outputDiv.innerText = 'data output: \n' + data.problem_output
+                                    + '\n\nprofi output:\n' + data.profi_output
+                                    + '\n\nhumor output:\n' + data.humor_output
+                                    + '\n\naffection output: \n' + data.affection_output;
             })
             .catch(error => {
                 outputDiv.innerText = 'Error: ' + error;

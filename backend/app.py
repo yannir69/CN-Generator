@@ -18,18 +18,27 @@ def index():
 def generate():
     message = request.json
 
+    agent_problem = Agent(
+        role = 'Hassrede-Analytiker',
+        goal = 'Analysiere Hasskommentare und schreibe einen Paragraph, warum diese Hassrede problematisch ist',
+        backstory = 'Du bist ein Experte in Hassrede und kannst Problematiken von Hassrede-Kommentaren erkennen und beschreiben.',
+        verbose = True,
+        allow_delegation = False,
+        language = 'de'
+    )
+
     agent_profi = Agent(
         role = 'Moderator eines Accounts auf einer Social Media Plattform',
-        goal = 'Generator von Antworten auf gegebene Hasskommentare, um weitere Hassrede in der Kommentarspalte zu verringern.',
+        goal = 'Generator von deutschen Antworten auf gegebene Hasskommentare, um weitere Hassrede in der Kommentarspalte zu verringern.',
         backstory = 'Dein Kommentarstil ist professionell, sachlich, und auf Fakten basiert',
         verbose = True,
         allow_delegation = False,
-        language = 'de',
+        language = 'de'
     )
 
     agent_humor = Agent(
         role = 'Moderator eines Accounts auf einer Social Media Plattform',
-        goal = 'Generator von Antworten auf gegebene Hasskommentare, um weitere Hassrede in der Kommentarspalte zu verringern',
+        goal = 'Generator von deutschen Antworten auf gegebene Hasskommentare, um weitere Hassrede in der Kommentarspalte zu verringern',
         backstory = 'Dein Kommentarstil ist humorvoll, kreativ und schlagfertig. Benutze Emojis um den Humor hervorzuheben',
         verbose = True,
         allow_delegation = False,
@@ -45,29 +54,18 @@ def generate():
         language = 'de'
     )
 
-    agent_problem = Agent(
-        role = 'Hassrede-Analytiker',
-        goal = 'Analysiere Hasskommentare und schreibe einen Paragraph, warum diese Hassrede problematisch ist',
-        backstory = 'Du bist ein Experte in Hassrede und kannst Problematiken von Hassrede-Kommentaren erkennen und beschreiben.',
-        verbose = True,
-        allow_delegation = False,
-        language = 'de'
-    )
-
     task_problem = Task(
         description = f"Finde die Problematik der folgenden Hassrede. Schreibe eine ausführliche Erklärung, warum dies als Hassrede gilt '{message}'",
         agent = agent_problem,
-        expected_output = "Ein Paragraph mit einer Erklärung, warum der Kommentar problematisch hinsichtlich Hassrede ist.",
-        language = 'de',
-        async_execution = True
+        expected_output = "Ein Paragraph in deutscher Sprache mit einer Erklärung, warum der Kommentar problematisch hinsichtlich Hassrede ist.",
+        language = 'de'
     )
 
     task_profi = Task(
         description = f"Generiere Gegenrede auf die gegebene Hassrede für die folgende Nachricht: '{message}'",
         agent = agent_profi,
-        expected_output = "Ein bis drei Sätze Gegenrede, die die weitere Hassrede in der Kommentarspalte vermindern wird",
+        expected_output = "Ein bis drei Sätze Gegenrede in deutscher Sprache, die die weitere Hassrede in der Kommentarspalte vermindern wird",
         language = 'de',
-        async_execution = True,
         context = [task_problem]
     )
 
@@ -76,7 +74,6 @@ def generate():
         agent = agent_humor,
         expected_output = "Ein bis drei Sätze Gegenrede, die die weitere Hassrede in der Kommentarspalte vermindern wird",
         language = 'de',
-        async_execution = True,
         context = [task_problem]
     )
 
@@ -85,20 +82,33 @@ def generate():
         agent = agent_affection,
         expected_output = "Ein bis drei Sätze Gegenrede, die die weitere Hassrede in der Kommentarspalte vermindern wird",
         language = 'de',
-        async_execution = True,
         context = [task_problem]
     )
 
    
-    crew = Crew(
+    """crew = Crew(
         agents = [agent_profi, agent_affection, agent_humor, agent_problem],
         tasks = [task_profi, task_affection, task_humor, task_problem],
         verbose = 2,
         temperature = 0.6,
+        language = 'de',
         process = Process.sequential
-    )
-    output = crew.kickoff()
-    return output
+    )"""
+
+    problem_output = task_problem.execute()
+    profi_output = task_profi.execute(context=[problem_output])
+    humor_output = task_humor.execute(context=[problem_output])
+    affection_output = task_affection.execute(context=[problem_output])
+    
+    # Collect the outputs
+    outputs = {
+        "problem_output": problem_output,
+        "profi_output": profi_output,
+        "humor_output": humor_output,
+        "affection_output": affection_output
+    }
+
+    return jsonify(outputs)
 
 if __name__ == '__main__':
     app.run(debug=True, port=5500)
