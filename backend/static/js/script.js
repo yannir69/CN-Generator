@@ -14,10 +14,11 @@ document.addEventListener('DOMContentLoaded', function() {
             body: JSON.stringify(inputText)})
             .then(response => response.json())
             .then(data => {
-                outputDiv.innerText = 'data output: \n' + data.problem_output
-                                    + '\n\nprofi output:\n' + data.profi_output
-                                    + '\n\nhumor output:\n' + data.humor_output
-                                    + '\n\naffection output: \n' + data.affection_output;
+                outputDiv.innerText = 'Problem: \n' + data.problem_output
+                                    + '\n\nFormelle CN:\n' + data.profi_output
+                                    + '\n\nHumorvolle CN:\n' + data.humor_output
+                                    + '\n\nEinfühlsame CN: \n' + data.affection_output
+                                    + '\n\nEvaluation: \n' + data.evaluation_output;
             })
             .catch(error => {
                 outputDiv.innerText = 'Error: ' + error;
