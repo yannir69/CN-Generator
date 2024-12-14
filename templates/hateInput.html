@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aktiv gegen Hass</title>
+    <link rel="stylesheet" href="static/css/styles.css">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
+<body>
+    <div class = "antonio_logo">
+        <img src = "static/images/Antonio_Logo.png" alt = "Amadeu Antonio Logo"/>
+    </div>
+    <div class = "civic_logo">
+        <img src= "static/images/civic_Logo.png" alt="Logo">
+    </div>
+    <div class = "upper">
+        <div class = "upper-content">
+            <h1 class = "headline">
+                Aktiv gegen Hass im Netz!
+            </h1>
+            <p class = "text">
+                Willkommen zu unserem Gegenrede-Generator. Hier wird KI für die Generierung von Gegenrede verwendet. Das Modell arbeitet mit unseren strategischen Gegenrede-Dokumenten und bietet mehrere Antwortmöglichkeiten für Eure Reaktion. 
+                <br><br>
+                Wichtig: Das Modell ist als Hilfe und Inspiration für Eure Gegenrede entwickelt. Nicht jede Antwort ist perfekt!
+            </p>
+        </div>
+    </div>
+    <div class="input_section">
+        <label for="hate-comment" class="label">
+            Gib hier deinen Hasskommentar ein:
+        </label>
+        <textarea id="hate-comment" rows = "4" class="textarea" placeholder="Hier der Hassredekommentar..."></textarea>
+        
+        <div class="settings-container">
+            <button class="submit-button" id = "submit-button">
+                Gegenrede generieren
+            </button>
+            <div class = "length-buttons">
+                <label for = "length-buttons"> Wähle die Länge der Antwort: </label>
+                <button class = "length-button" id = "kurz"> Kurz </button>
+                <button class = "length-button active" id = "mittel"> Mittel </button>
+                <button class = "length-button" id = "lang"> Lang </button>
+            </div>
+        </div>
+        
+    </div>
+    <script src="static/js/inputScript.js"></script>
+</body>
+</html>

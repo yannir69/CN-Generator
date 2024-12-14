@@ -1,0 +1,275 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    width: 90%;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.headline {
+    color: #5EA62B;
+}
+
+.headline-small {
+    color: #5EA62B;
+    font-size: 12pt;
+}
+
+.text {
+    line-height: 1.5;
+}
+
+.civic_logo{
+    position: absolute;
+    top: 50px; /* Adjust the top position */
+    right: 50px; /* Adjust the left position */
+    z-index: 10; /* Ensure the logo appears above other content */
+}
+
+.civic_logo img {
+    max-width: 300px;
+    max-height: 300px;
+    object-fit: contain;
+}
+
+.antonio_logo {
+    position: absolute;
+    top: 50px; /* Adjust the top position */
+    left: 50px; /* Adjust the left position */
+    z-index: 10; /* Ensure the logo appears above other content */
+}
+
+.antonio_logo img {
+    width: 100px; /* Adjust the size of the logo */
+    height: auto; /* Maintain aspect ratio */
+}
+
+.upper {
+    position: absolute;
+    align-items: center;
+    top: 5%;
+    left: 30%;
+    display: flex;
+    gap: 20px;
+    width: 40%;
+    flex: 1;
+}
+
+.upper-content{
+    text-align: center;
+    width: 100%;
+    flex: 1;
+}
+
+.upper-content h1 {
+    font-size: 2em; /* Make sure the headline is styled as a headline */
+    font-weight: bold; /* Bold style for the headline */
+    margin: 0; /* Remove default margin */
+    text-align: center; /* Ensure the headline text is centered */
+}
+
+.lower {
+    position: absolute;
+    text-align: center;
+    top: 40%;
+    left: 30%;
+    width: 700px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+    text-align: start;
+    resize: none;
+}
+
+button {
+    padding: 15px 20px;
+    background-color: #5EA62B;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+
+
+button:hover {
+    background-color: #2B6501;
+}
+
+#output {
+    margin-top: 20px;
+}
+
+
+.input_section{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 40%;
+}
+
+
+.submit-button {
+    padding: 10px 15px;
+    background-color: #5EA62B;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submit-button:hover {
+    background-color: #4b8f22;
+}
+
+.label {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+/*CN.html*/
+
+.top-middle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.bottom-container{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    max-width: 800px;
+    margin: 20px;
+    gap: 10px;
+}
+
+.bottom-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 20px; /* Space between the two bottom divs */
+    bottom: 40%;
+}
+
+.bottom-left,
+.bottom-right {
+    position: relative;
+    top: -100px;
+    flex: 1; /* Equal width for both columns */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+    min-height: 100px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.style-container{
+    display: flex;
+    justify-content: space-between; /* Evenly distribute buttons */
+    gap: 10px; /* Space between buttons */
+    margin-bottom: 10px; /* Add spacing below the buttons */
+}
+
+.style-button{
+    display: flex;
+    justify-content: center;
+    flex: 1; /* Equal width for all buttons */
+    padding: 10px;
+    background-color: #5EA62B;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s;
+    height: 25px;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.style-buttons{
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    flex: 1; 
+}
+
+.settings-container {
+    display: flex;
+    justify-content: space-between; /* Push buttons to the right */
+    align-items: center;
+    padding: 10px;
+    width: 100%;
+}
+
+.length-buttons {
+    display: flex;
+    gap: 10px; /* Add spacing between buttons */
+    flex-direction: row;
+    align-items: center;
+}
+
+.length-buttons label {
+    font-size: 14px; /* Smaller font size for the label */
+    text-align: center; /* Center-align text within the label */
+    color: #333; /* Optional: Adjust label color */
+    margin-bottom: 5px; /* Optional: Add space below the label */
+}
+
+.length-button {
+    padding: 10px 20px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.length-button:hover {
+    background-color: #dcdcdc;
+}
+
+.length-button.active {
+    background-color: #5EA62B;
+    color: #fff;
+}

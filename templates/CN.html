@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CN-Generator</title>
+    <link rel="stylesheet" href="static/css/styles.css">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
+<body>
+    <div class = "antonio_logo">
+        <img src = "static/images/Antonio_Logo.png" alt = "Amadeu Antonio Logo"/>
+    </div>
+    <div class = "civic_logo">
+        <img src= "static/images/civic_Logo.png" alt="Logo">
+    </div>
+    <div class = "container">
+        <div class = "top-middle"> 
+            <div class="input_section">
+                <label for="hate-comment" class="label">
+                    Gib hier deinen Hasskommentar ein:
+                </label>
+                <textarea id="hate-comment" rows = "4" class="textarea" placeholder="Hier der Hassredekommentar..."></textarea>
+                <div class="settings-container">
+                    <button class="submit-button" id = "generateButton">
+                        Gegenrede generieren
+                    </button>
+                    <div class = "length-buttons">
+                        <label for = "length-buttons"> Wähle die Länge der Antwort: </label>
+                        <button class = "length-button" id = "kurz"> Kurz </button>
+                        <button class = "length-button active" id = "mittel"> Mittel </button>
+                        <button class = "length-button" id = "lang"> Lang </button>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+            <div class = "bottom-row">
+                <div class = "bottom-left">
+                    <h1 class = "headline-small"> 
+                        Warum ist der Kommentar problematisch?
+                    </h1>
+                    <p class = "text" id = "problem-statement">
+                        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+                    </p>
+                </div> 
+                <div class = "bottom-right">
+                    <div class = "style-button-container">
+                        <label class = "headline-small">
+                            Wähle deinen Reaktionsstil:
+                        </label>
+                        <div id = "style-buttons" class = "style-buttons">
+                            <button class = "style-button" id = "Formell"> Formell </button>
+                            <button class = "style-button" id = "Humorvoll"> Humorvoll </button>
+                            <button class = "style-button" id = "Konfrontativ"> Konfrontativ </button>
+                            <button class = "style-button" id = "Einfühlsam"> Einfühlsam</button>
+                        </div>
+                        
+                    </div>
+                    <h1 class = "headline-small"> 
+                        Deine mögliche Gegenrede
+                    </h1>
+                    <p class = "text" id = "output">
+                        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+                    </p>
+                </div> 
+            </div>
+    </div>
+    <script src="static/js/script.js"></script>
+</body>
+</html>
