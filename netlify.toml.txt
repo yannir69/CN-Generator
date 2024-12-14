@@ -9,3 +9,13 @@
   from = "/*"
   to = "/index.html"
   status = 200
+
+[[redirects]]
+  from = "/css/*"
+  to = "/static/css/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/js/*"
+  to = "/static/js/:splat"
+  status = 200
