@@ -1,5 +1,5 @@
 [build]
-  publish = "templates"
+  publish = "."
 
 [[headers]]
   for = "/static/*"
