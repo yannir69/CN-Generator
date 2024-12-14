@@ -1,6 +1,10 @@
 [build]
   publish = "templates"
 
+[[headers]]
+  for = "/static/*"
+  values = { cache-control = "public, max-age=31536000" }
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
