@@ -4,17 +4,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const outputDiv = document.getElementById('output');
     const problemStatement = document.getElementById('problem-statement');
 
-    const button_formell = document.getElementById('Formell');
+    const button_sachlich = document.getElementById('Sachlich');
     const button_humor = document.getElementById('Humorvoll');
-    const button_konfrontativ = document.getElementById('Konfrontativ');
-    const button_einfühlsam = document.getElementById('Einfühlsam');
+    const button_gegenposition = document.getElementById('Gegenposition');
+    const button_empathisch = document.getElementById('Empathisch');
 
     //selection of output length
-    let maxWords = 200;
+    let maxWords = 10;
     const length_buttons = document.querySelectorAll('.length-button');
 
     //set default active "mittel" button
-    document.getElementById('mittel').classList.add('active');
+    document.getElementById('kurz').classList.add('active');
     
     // Add click event listeners for all length buttons
     length_buttons.forEach((button) => {
@@ -27,16 +27,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Set maxWords based on the button clicked
             if (button.id === 'kurz') {
-                maxWords = 100;
-            } else if (button.id === 'mittel') {
-                maxWords = 200;
+                maxWords = 10;
             } else if (button.id === 'lang') {
-                maxWords = 300;
+                maxWords = 30;
             }
         });
     });
 
-    button_formell.style.backgroundColor = "#a3e077";
+    button_sachlich.style.backgroundColor = "#a3e077";
     CN_formell = localStorage.getItem('CN_formell');
 
     //check if there is a generated CN
@@ -53,10 +51,10 @@ document.addEventListener('DOMContentLoaded', function() {
         generateButton.innerText = "Bitte warten...";
         generateButton.disabled = true;
 
-        button_formell.style.backgroundColor = "#a3e077";
+        button_sachlich.style.backgroundColor = "#a3e077";
         button_humor.style.backgroundColor = "#5EA62B";
-        button_konfrontativ.style.backgroundColor = "#5EA62B";
-        button_einfühlsam.style.backgroundColor = "#5EA62B";
+        button_gegenposition.style.backgroundColor = "#5EA62B";
+        button_empathisch.style.backgroundColor = "#5EA62B";
 
         if (inputText !== '') {
             fetch('/generateCN', 
@@ -95,40 +93,40 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 
-    button_formell.addEventListener('click', function() 
+    button_sachlich.addEventListener('click', function() 
     {
         outputDiv.textContent = localStorage.getItem('CN_formell');
-        button_formell.style.backgroundColor = "#a3e077";
+        button_sachlich.style.backgroundColor = "#a3e077";
         button_humor.style.backgroundColor = "#5EA62B";
-        button_konfrontativ.style.backgroundColor = "#5EA62B";
-        button_einfühlsam.style.backgroundColor = "#5EA62B";
+        button_gegenposition.style.backgroundColor = "#5EA62B";
+        button_empathisch.style.backgroundColor = "#5EA62B";
     });
 
     button_humor.addEventListener('click', function() 
     {
         outputDiv.textContent = localStorage.getItem('CN_humor');
-        button_formell.style.backgroundColor = "#5EA62B";
+        button_sachlich.style.backgroundColor = "#5EA62B";
         button_humor.style.backgroundColor = "#a3e077";
-        button_konfrontativ.style.backgroundColor = "#5EA62B";
-        button_einfühlsam.style.backgroundColor = "#5EA62B";
+        button_gegenposition.style.backgroundColor = "#5EA62B";
+        button_empathisch.style.backgroundColor = "#5EA62B";
     });
 
-    button_konfrontativ.addEventListener('click', function() 
+    button_gegenposition.addEventListener('click', function() 
     {
         outputDiv.textContent = localStorage.getItem('CN_konfrontativ');
-        button_formell.style.backgroundColor = "#5EA62B";
+        button_sachlich.style.backgroundColor = "#5EA62B";
         button_humor.style.backgroundColor = "#5EA62B";
-        button_konfrontativ.style.backgroundColor = "#a3e077";
-        button_einfühlsam.style.backgroundColor = "#5EA62B";
+        button_gegenposition.style.backgroundColor = "#a3e077";
+        button_empathisch.style.backgroundColor = "#5EA62B";
     });
 
-    button_einfühlsam.addEventListener('click', function() 
+    button_empathisch.addEventListener('click', function() 
     {
         outputDiv.textContent = localStorage.getItem('CN_einfühlsam');
-        button_formell.style.backgroundColor = "#5EA62B";
+        button_sachlich.style.backgroundColor = "#5EA62B";
         button_humor.style.backgroundColor = "#5EA62B";
-        button_konfrontativ.style.backgroundColor = "#5EA62B";
-        button_einfühlsam.style.backgroundColor = "#a3e077";
+        button_gegenposition.style.backgroundColor = "#5EA62B";
+        button_empathisch.style.backgroundColor = "#a3e077";
     });
 
 });

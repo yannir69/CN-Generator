@@ -8,9 +8,9 @@ from groq import Groq
 from flask import Flask, render_template, request, send_from_directory, jsonify
 
 # Initialize the embedding model
-embedding_model = SentenceTransformer('all-mpnet-base-v2')
+embedding_model = SentenceTransformer('german-roberta-sentence-transformer-v2')
 groq_api_url = "https://api.groq.com/openai/v1/models"  # Replace with actual Groq API endpoint
-model = "mixtral-8x7b-32768"
+model = "gemma2-9b-it"
 os.environ["GROQ_API_KEY"] = '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'
 
 # these are the different strategy documents
@@ -63,7 +63,7 @@ def get_llm_answer(query, document, hate_message, wordLimit):
         },
         {
             "role": "system",
-            "content": "Antworte ausschließlich auf Deutsch und schreibe ungefähr " +  wordLimit + "Wörter. Nutze den folgenden Text als Quelle deiner Information " + document,
+            "content": "Antworte ausschließlich auf Deutsch. Beantworte die Anfrage in maximal " +  wordLimit + "Wörter. Nutze den folgenden Text als Quelle deiner Information " + document,
         }
     ],
     model=model,
@@ -84,11 +84,11 @@ def embed_text(text, embedding_model):
     return embedding.cpu().numpy()  # Convert tensor to numpy array
 
 # Add document embeddings to a FAISS index
-def add_doc_to_faiss_index(doc_path, index, embedding_model):
+def add_doc_to_faiss_index(doc_path, index, embedding_model, split):
     # Initialize FAISS index (L2 distance)
     
     text = extract_text_from_docx(doc_path)
-    paragraphs = text.split('\n')
+    paragraphs = text.split(split)
     valid_index = 0
 
     #split text into paragraphs and embed them individually
@@ -127,7 +127,6 @@ doc_path_Counterspeech = "D:/Documents/FU Berlin/Masterarbeit/Civic.Net/Datensä
 
 @app.route('/generateCN', methods=['POST'])
 def generate():
-    print("I am here")
     receivedData = request.get_json()
     message = receivedData.get('text')
     wordLimit = receivedData.get('wordLimit')
@@ -139,7 +138,7 @@ def generate():
     docstore.clear()
 
     # Add document to the FAISS index
-    add_doc_to_faiss_index(doc_path_Suchhilfe, faiss_index, embedding_model)
+    add_doc_to_faiss_index(doc_path_Suchhilfe, faiss_index, embedding_model, '\n\n')
 
     # Query for categorizing the comment in Suchhilfe.docx
     query_Category = "Finde den Paragraphen, der die Kernaussage und den Stil dieses Hasskommentars am besten beschreibt. Achte auf die inhaltlichen Merkmale und die Formulierungen des Kommentars, um die richtige Kategorie zu identifizieren. Kommentar: " + message
@@ -153,11 +152,9 @@ def generate():
 
     query_base = (
     """
-        Anweisung: Generiere eine Gegenrede zu dem gegebenen problematischen Kommentar. Orientiere dich dabei an den Strategien im eingebundenen Dokument zur Gegenrede.
+        Generiere eine Gegenrede zu dem gegebenen problematischen Kommentar. Orientiere dich dabei an den Strategien im eingebundenen Dokument zur Gegenrede.
 
-        Schreibe ohne: Begrüßungen, Verabschiedungen, allgemeine Appelle zum Miteinander, zusammenfassende Hinweise oder abschließende Phrasen.
         Vermeide: das Wort "Hassrede", Aufforderungen zur Zusammenarbeit (z. B. "Lass uns...", "Wir sollten...") und Formulierungen wie "Es ist wichtig zu verstehen, ...".
-        Beende die Antwort unmittelbar nach der Richtigstellung oder Klärung des Problems.
     """
     )
 
@@ -186,16 +183,16 @@ def generate():
     )
 
 
-    query_problem = "Schreibe ausschließlich auf Deutsch. Beschreibe das Problem des Hasskommentars ausführlich basierend auf den Informationen des Dokuments. "
+    query_problem = "Schreibe ausschließlich auf Deutsch. Beschreibe das Problem des Hasskommentars ausführlich basierend auf den Informationen des Dokuments. Formattiere die Antwort in Paragraphen. Nicht länger als 200 Wörter."
 
     #clear the docstore and faiss index that is still filled with categories
     docstore.clear()
     faiss_index.reset()
-    add_doc_to_faiss_index(docpath_strategy, faiss_index, embedding_model)
+    add_doc_to_faiss_index(docpath_strategy, faiss_index, embedding_model, '\n')
     document_text_strategy = get_retrieved_texts(search_documents(query_strategy, faiss_index, embedding_model, 5), docstore)
 
     print(message)
-    CN_formell = get_llm_answer(queryCN_formal + "\n" + query_base, document_text_strategy, message, wordLimit)
+    """CN_formell = get_llm_answer(queryCN_formal + "\n" + query_base, document_text_strategy, message, wordLimit)
     CN_humor = get_llm_answer(queryCN_humor + "\n" + query_base, document_text_strategy, message, wordLimit)
     CN_konfrontativ = get_llm_answer(queryCN_konfrontativ + "\n" + query_base, document_text_strategy, message, wordLimit)
     CN_einfühlsam = get_llm_answer(queryCN_einfühlsam + "\n" + query_base, document_text_strategy, message, wordLimit)
@@ -207,8 +204,12 @@ def generate():
         "CN_konfrontativ": CN_konfrontativ,
         "CN_einfühlsam": CN_einfühlsam,
         "problem" : problem
-    }
-    return jsonify(outputs)
+    }"""
+    return jsonify({"CN_formell": 0,
+        "CN_humor" : 0,
+        "CN_konfrontativ": 0,
+        "CN_einfühlsam": 0,
+        "problem" : 0})
 
 if __name__ == '__main__':
     app.run(debug=True, port=5500)

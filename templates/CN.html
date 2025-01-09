@@ -9,26 +9,29 @@
 </head>
 <body>
     <div class = "antonio_logo">
-        <img src = "static/images/Antonio_Logo.png" alt = "Amadeu Antonio Logo"/>
+        <a href = "https://www.amadeu-antonio-stiftung.de">
+            <img src = "static/images/Antonio_Logo.png" alt = "Amadeu Antonio Logo"/>
+        </a>
     </div>
     <div class = "civic_logo">
-        <img src= "static/images/civic_Logo.png" alt="Logo">
+        <a href = "https://www.amadeu-antonio-stiftung.de/projekte/civic-net-aktiv-gegen-hass-im-netz/">
+            <img src= "static/images/civic_Logo.png" alt="Logo">
+        </a>
     </div>
     <div class = "container">
         <div class = "top-middle"> 
             <div class="input_section">
                 <label for="hate-comment" class="label">
-                    Gib hier deinen Hasskommentar ein:
+                    Gib hier einen Hasskommentar ein:
                 </label>
                 <textarea id="hate-comment" rows = "4" class="textarea" placeholder="Hier der Hassredekommentar..."></textarea>
                 <div class="settings-container">
                     <button class="submit-button" id = "generateButton">
                         Gegenrede generieren
                     </button>
-                    <div class = "length-buttons">
-                        <label for = "length-buttons"> Wähle die Länge der Antwort: </label>
-                        <button class = "length-button" id = "kurz"> Kurz </button>
-                        <button class = "length-button active" id = "mittel"> Mittel </button>
+                    <div class = "length-buttons" id = "length-buttons">
+                        <label  class = "length-buttons label"> Wähle die Länge der Antwort: </label>
+                        <button class = "length-button active" id = "kurz"> Kurz </button>
                         <button class = "length-button" id = "lang"> Lang </button>
                     </div>
                     
@@ -50,10 +53,10 @@
                             Wähle deinen Reaktionsstil:
                         </label>
                         <div id = "style-buttons" class = "style-buttons">
-                            <button class = "style-button" id = "Formell"> Formell </button>
+                            <button class = "style-button" id = "Sachlich"> Sachlich </button>
                             <button class = "style-button" id = "Humorvoll"> Humorvoll </button>
-                            <button class = "style-button" id = "Konfrontativ"> Konfrontativ </button>
-                            <button class = "style-button" id = "Einfühlsam"> Einfühlsam</button>
+                            <button class = "style-button" id = "Gegenposition"> Gegenposition </button>
+                            <button class = "style-button" id = "Empathisch"> Empathisch </button>
                         </div>
                         
                     </div>

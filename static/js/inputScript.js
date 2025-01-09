@@ -3,11 +3,11 @@ document.addEventListener('DOMContentLoaded', function()
     submitButton = document.getElementById('submit-button');
 
     //selection of output length
-    let maxWords = 200;
+    let maxWords = 10;
     const length_buttons = document.querySelectorAll('.length-button');
 
     //set default active "mittel" button
-    document.getElementById('mittel').classList.add('active');
+    document.getElementById('kurz').classList.add('active');
     
     // Add click event listeners for all length buttons
     length_buttons.forEach((button) => {
@@ -20,11 +20,9 @@ document.addEventListener('DOMContentLoaded', function()
 
             // Set maxWords based on the button clicked
             if (button.id === 'kurz') {
-                maxWords = 100;
-            } else if (button.id === 'mittel') {
-                maxWords = 200;
+                maxWords = 10;
             } else if (button.id === 'lang') {
-                maxWords = 300;
+                maxWords = 30;
             }
         });
     });

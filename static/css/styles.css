@@ -31,14 +31,14 @@ body {
 
 .civic_logo{
     position: absolute;
-    top: 50px; /* Adjust the top position */
+    top: 25px; /* Adjust the top position */
     right: 50px; /* Adjust the left position */
     z-index: 10; /* Ensure the logo appears above other content */
 }
 
 .civic_logo img {
-    max-width: 300px;
-    max-height: 300px;
+    max-width: 200px;
+    max-height: 200px;
     object-fit: contain;
 }
 
@@ -114,7 +114,12 @@ button {
     transition: background-color 0.3s;
 }
 
-
+.indexButton {
+    margin-top: 50px;
+    font-size: 20px;
+    width: 250px;
+    height: 50px;
+}
 
 button:hover {
     background-color: #2B6501;
