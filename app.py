@@ -1,3 +1,23 @@
+"""
+Author: Yannik Rohrschneider
+Project: German Counter Narrative Generator
+Affiliation: Freie Universität Berlin – Master's Thesis
+Date: April 2025
+
+Description:
+This Flask web app generates AI-powered counter speech in German in response to user-submitted hate comments.
+It retrieves relevant strategy documents based on semantic similarity (FAISS + sentence transformers), 
+and uses the Groq-hosted LLaMA 3 model to generate responses in different rhetorical styles.
+
+Main Features:
+- Document categorization based on comment content
+- Retrieval-Augmented Generation using selected strategy guides
+- Multiple output styles: Formal, Humorous, Confrontational, Empathetic
+- Explanatory paragraph on why the comment is problematic
+
+Note:
+This code is written for academic purposes and prioritizes functionality and transparency over modular structure.
+"""
 import os
 import faiss
 import numpy as np
@@ -140,10 +160,9 @@ def generate():
 
     # Query for categorizing the comment in Suchhilfe.docx
     query_Category = message
+
     #path for the strategy document
     docpath_strategy = categories[int(search_documents(query_Category, faiss_index, embedding_model, 1))]
-    #debug
-    #print(categories[int(search_documents(query_Category, faiss_index, embedding_model, 5))])
 
     #now, embed the strategy document
     query_strategy = "Finde Informationen, die bei der Generierung von Gegenrede auf Hasskommentare helfen können"
@@ -183,19 +202,20 @@ def generate():
 
     query_problem = "Schreibe ausschließlich auf Deutsch. Beschreibe das Problem des Hasskommentars ausführlich basierend auf den Informationen des Dokuments. Formattiere die Antwort in Paragraphen. Nicht länger als 200 Wörter."
 
-    #clear the docstore and faiss index that is still filled with categories
+    # clear the docstore and faiss index that is still filled with categories
     docstore.clear()
     faiss_index.reset()
     add_doc_to_faiss_index(docpath_strategy, faiss_index, embedding_model, '\n')
     document_text_strategy = get_retrieved_texts(search_documents(query_strategy, faiss_index, embedding_model, 5), docstore)
 
-    print(message)
+    # here, all the counter narratives and the problem statement will be generated
     CN_formell = get_llm_answer(queryCN_formal + "\n" + query_base, document_text_strategy, message, wordLimit)
     CN_humor = get_llm_answer(queryCN_humor + "\n" + query_base, document_text_strategy, message, wordLimit)
     CN_konfrontativ = get_llm_answer(queryCN_konfrontativ + "\n" + query_base, document_text_strategy, message, wordLimit)
     CN_einfühlsam = get_llm_answer(queryCN_einfühlsam + "\n" + query_base, document_text_strategy, message, wordLimit)
     problem = get_llm_answer(query_problem, document_text_strategy, message, '500')
 
+    # format the output
     outputs = {
         "CN_formell": CN_formell,
         "CN_humor" : CN_humor,
@@ -203,6 +223,7 @@ def generate():
         "CN_einfühlsam": CN_einfühlsam,
         "problem" : problem
     }
+
     return outputs
 
 if __name__ == '__main__':

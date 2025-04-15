@@ -1,3 +1,4 @@
+//This is the script that handles the interactions on the final output page
 document.addEventListener('DOMContentLoaded', function() {
     const generateButton = document.getElementById('generateButton');
     const textInput = document.getElementById('hate-comment');
@@ -13,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let maxWords = 10;
     const length_buttons = document.querySelectorAll('.length-button');
 
-    //set default active "mittel" button
+    //set default active "kurz" button
     document.getElementById('kurz').classList.add('active');
     
     // Add click event listeners for all length buttons
@@ -34,6 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    //set initial selection on the "formell" style
     button_sachlich.style.backgroundColor = "#a3e077";
     CN_formell = localStorage.getItem('CN_formell');
 
@@ -45,12 +47,14 @@ document.addEventListener('DOMContentLoaded', function() {
         outputDiv.textContent = "Keine CN gefunden.";
     }
 
+    //Click-Event of the generate button, this will kick off the CN-generation
     generateButton.addEventListener('click', function() {
         const inputText = textInput.value.trim();
 
         generateButton.innerText = "Bitte warten...";
         generateButton.disabled = true;
 
+        //set selected style
         button_sachlich.style.backgroundColor = "#a3e077";
         button_humor.style.backgroundColor = "#5EA62B";
         button_gegenposition.style.backgroundColor = "#5EA62B";
@@ -70,29 +74,34 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(response => response.json())
             .then(data => {
+                //this is the received data from app.py
                 localStorage.setItem('CN_formell', data.CN_formell);
                 localStorage.setItem('CN_humor', data.CN_humor);
                 localStorage.setItem('CN_konfrontativ', data.CN_konfrontativ);
                 localStorage.setItem('CN_einfühlsam', data.CN_einfühlsam);
 
+                //default output is always the "formell" style
                 outputDiv.innerText = data.CN_formell;
+                //output the problem statement
                 problemStatement.innerText = data.problem;
             })
             .catch(error => {
                 outputDiv.innerText = 'Error: ' + error;
             })
+            //when everything is done, enable the button again for a new hate comment
             .finally(() => {
                 generateButton.disabled = false;
                 generateButton.innerText = 'Gegenrede generieren';
             });
         } else {
+            //if nothing is entered
             outputDiv.innerText = 'Please enter some text.';
             generateButton.disabled = false;
             generateButton.innerText = 'Gegenrede generieren';
         }
     });
 
-
+    //All of the below are button color changes for selections
     button_sachlich.addEventListener('click', function() 
     {
         outputDiv.textContent = localStorage.getItem('CN_formell');

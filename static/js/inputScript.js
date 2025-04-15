@@ -1,3 +1,4 @@
+//This script handles the first input hate comment
 document.addEventListener('DOMContentLoaded', function() 
 {
     submitButton = document.getElementById('submit-button');
@@ -33,8 +34,9 @@ document.addEventListener('DOMContentLoaded', function()
         submitButton.innerText = 'Bitte warten...';
         submitButton.disabled = true;
 
+        // Alert for empty input
         if (comment.trim() === "") {
-            alert("Bitte geben Sie einen Kommentar ein!"); // Alert for empty input
+            alert("Bitte geben Sie einen Kommentar ein!"); 
             return;
         }
         else 
@@ -58,9 +60,6 @@ document.addEventListener('DOMContentLoaded', function()
                     localStorage.setItem('CN_einfühlsam', data.CN_einfühlsam);
                     localStorage.setItem('problem-statement', data.problem);
                     window.location.href = "/CN";
-                })
-                .catch(error => {
-                    localStorage.setItem('CN', "Error");
                 })
                 .finally(() => {
                     submitButton.disabled = false;
