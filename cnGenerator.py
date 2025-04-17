@@ -20,7 +20,6 @@ This code is written for academic purposes and prioritizes functionality and tra
 """
 import os
 import faiss
-import numpy as np
 from sentence_transformers import SentenceTransformer
 from docx import Document
 from dotenv import load_dotenv
@@ -59,11 +58,11 @@ app = Flask(__name__)
 
 @app.route('/CN')
 def CN():
-    return render_template('CN.html')
+    return render_template('generationPage.html')
 
 @app.route('/hateInput')
 def hate_input():
-    return render_template('hateInput.html')
+    return render_template('inputPage.html')
 
 @app.route('/')
 def index():
@@ -195,7 +194,7 @@ def generate():
 
     queryCN_einfühlsam = (
     """
-        Du bist ein einfühlsamer in einem Online-Forum. Gehe verständnisvoll und respektvoll auf die zugrunde liegenden Emotionen oder Meinungen ein und versuche, eine Brücke zu bauen. Sei freundlich und deeskalierend, während du gleichzeitig verdeutlichst, warum der Kommentar problematisch ist.
+        Du bist ein einfühlsamer Moderator in einem Online-Forum. Gehe verständnisvoll und respektvoll auf die zugrunde liegenden Emotionen oder Meinungen ein und versuche, eine Brücke zu bauen. Sei freundlich und deeskalierend, während du gleichzeitig verdeutlichst, warum der Kommentar problematisch ist.
     """
     )
 

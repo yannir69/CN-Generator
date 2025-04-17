@@ -12,7 +12,7 @@
     `python -m venv venv`    
     `venv\Scripts\activate`            
 
-3. Install Dependencies (Make sure you have Python 3.8 or later installed):  
+3. Install Dependencies:  
 
     `pip install -r requirements.txt`  
 
@@ -30,10 +30,8 @@ This app uses the Groq API to generate responses. To run it, you'll need a perso
 
 4. Start the app as usual:   
 
-    `python app.py`  
+    `python cnGenerator.py`  
 
 The server will now run at http://localhost:5500  
-
-Have fun!  
 
 Created by Yannik Rohrschneider as part of a Master's Thesis at Freie Universität Berlin.  
