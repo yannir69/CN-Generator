@@ -16,7 +16,6 @@ instance/
 .webassets-cache
 
 # Secrets / env keys
-.env
 *secret*
 *token*
 *key*

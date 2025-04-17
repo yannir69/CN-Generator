@@ -24,15 +24,11 @@ This app uses the Groq API to generate responses. To run it, you'll need a perso
 
 1. Go to https://console.groq.com and log in or sign up.  
 2. Create an API key.
-3. In the root folder of this project, copy the file `.env.example` to a new file called `.env`:  
+3. In the root folder of this project, open the .env file and paste your API key:  
 
-    `copy .env.example .env`    
+    `GROQ_API_KEY=your_key_here`     
 
-4. Open the new .env file and paste your API key:  
-
-    `GROQ_API_KEY=your_actual_key_here`  
-
-5. Start the app as usual:   
+4. Start the app as usual:   
 
     `python app.py`  
 
